@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class SpawnSystem : MonoBehaviour
 {
     [SerializeField] private float _spawnInterval = 2f;
-    [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField] private List<Transform> _spawnPoints;
+    [SerializeField] private List<SpawnPoint> _spawnPoints;
 
     private WaitForSeconds _waitForSpawnInterval;
 
@@ -31,13 +30,13 @@ public class SpawnSystem : MonoBehaviour
         if (_spawnPoints.Count == 0)
             return;
 
-        Transform randomPoint = GetRandomSpawnPoint();
+        SpawnPoint randomPoint = GetRandomSpawnPoint();
 
-        Enemy enemy = Instantiate(_enemyPrefab, randomPoint.transform.position, Quaternion.identity);
-        enemy.Initialize(randomPoint.forward);
+        Enemy enemy = Instantiate(randomPoint.EnemyPrefab, randomPoint.transform.position, Quaternion.identity);
+        enemy.Initialize(randomPoint.EnemyTarget);
     }
 
-    private Transform GetRandomSpawnPoint()
+    private SpawnPoint GetRandomSpawnPoint()
     {
         return _spawnPoints[Random.Range(0, _spawnPoints.Count)];
     }
